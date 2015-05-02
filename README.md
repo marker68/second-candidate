@@ -1,4 +1,4 @@
-PQ-LEARN
+SecondCandidate
 ================================
 
 ## Introduction
@@ -8,8 +8,9 @@ In this project, we achieved to create a library for nearest neighbors search wi
 
 * An implementation of **Product Quantization for Approximated Nearest Neighbor Search** 
 * An implementation of **the inverted multi-index**
-* An implementation of **re-ranking**
 * The method that is described in **Searching for nearest neighbors with a dense space partitioning**
+
+## References
 
 ## Installation
 
@@ -18,7 +19,6 @@ In this project, we achieved to create a library for nearest neighbors search wi
 * An Unix Operating System. Tested on Mac OS X 10.9 and Ubuntu 14.04.
 * [CMake](http://www.cmake.org/) 2.8 or newer. For UNIX users, check your CMake version in terminal by `cmake -version`.
 * An GNU C++ Compiler or LLVM compiler that support C++ 11 and OpenMP.
-* [BOOST](http://www.boost.org) library installed on the machine.
 
 #### Build
 
