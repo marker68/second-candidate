@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="UTF-8">
+    <title>Second-candidate by marker68</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
+  </head>
+  <body>
+    <section class="page-header">
+      <h1 class="project-name">Second-candidate</h1>
+      <h2 class="project-tagline">An implementation of the paper “Searching for nearest neighbors with a dense space partitioning,” in Proceedings of International Conference on Image Processing, pp. 1–1, IEEE, 2015.</h2>
+      <a href="https://github.com/marker68/second-candidate" class="btn">View on GitHub</a>
+      <a href="https://github.com/marker68/second-candidate/zipball/master" class="btn">Download .zip</a>
+      <a href="https://github.com/marker68/second-candidate/tarball/master" class="btn">Download .tar.gz</a>
+    </section>
+
+    <section class="main-content">
+      <h1>
+<a id="pq-learn" class="anchor" href="#pq-learn" aria-hidden="true"><span class="octicon octicon-link"></span></a>PQ-LEARN</h1>
+
+<h2>
+<a id="introduction" class="anchor" href="#introduction" aria-hidden="true"><span class="octicon octicon-link"></span></a>Introduction</h2>
+
+<p>This project is the source code of the paper "<strong>Searching for nearest neighbors with a dense space partitioning</strong>".
+In this project, we achieved to create a library for nearest neighbors search with the following features:</p>
+
+<ul>
+<li>An implementation of <strong>Product Quantization for Approximated Nearest Neighbor Search</strong> </li>
+<li>An implementation of <strong>the inverted multi-index</strong>
+</li>
+<li>An implementation of <strong>re-ranking</strong>
+</li>
+<li>The method that is described in <strong>Searching for nearest neighbors with a dense space partitioning</strong>
+</li>
+</ul>
+
+<h2>
+<a id="installation" class="anchor" href="#installation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Installation</h2>
+
+<h4>
+<a id="prerequisites" class="anchor" href="#prerequisites" aria-hidden="true"><span class="octicon octicon-link"></span></a>Prerequisites</h4>
+
+<ul>
+<li>An Unix Operating System. Tested on Mac OS X 10.9 and Ubuntu 14.04.</li>
+<li>
+<a href="http://www.cmake.org/">CMake</a> 2.8 or newer. For UNIX users, check your CMake version in terminal by <code>cmake -version</code>.</li>
+<li>An GNU C++ Compiler or LLVM compiler that support C++ 11 and OpenMP.</li>
+<li>
+<a href="http://www.boost.org">BOOST</a> library installed on the machine.</li>
+</ul>
+
+<h4>
+<a id="build" class="anchor" href="#build" aria-hidden="true"><span class="octicon octicon-link"></span></a>Build</h4>
+
+<p>We use CMake as the build system. On terminal,</p>
+
+<div class="highlight highlight-bash"><pre>$ git clone git@github.com:your/repo.git pq-learn
+$ <span class="pl-c1">cd</span> ./pq-learn
+$ git submodule update --init
+$ cmake -H. -Bbuild <span class="pl-k">&amp;&amp;</span> cmake --build build -- -j4
+<span class="pl-c"># OR IF YOU WANT TO BUILD TESTS</span>
+$ cmake -DBUILD_TEST=ON -H. -Bbuild <span class="pl-k">&amp;&amp;</span> cmake --build build -- -j4</pre></div>
+
+<p>This script will create binaries in your <code>bin/</code> and <code>lib/</code> directories. </p>
+
+<h2>
+<a id="documentation" class="anchor" href="#documentation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Documentation</h2>
+
+<p>We are using Doxygen to generate the documentation. You can find that the style of comments for every methods that are implemented in these source codes are matching with Doxygen style.
+To generate the documentation:</p>
+
+<div class="highlight highlight-bash"><pre>$ <span class="pl-c1">cd</span> ./doc
+$ doxygen config.doxygen</pre></div>
+
+<p>Doxygen will create the documentation files in HTML and LaTeX format. You can also find samples and documentation in the Wiki of this project.</p>
+
+<h2>
+<a id="to-developers" class="anchor" href="#to-developers" aria-hidden="true"><span class="octicon octicon-link"></span></a>To developers</h2>
+
+<ul>
+<li>This project was built under Eclipse CDT so we leave the configuration files <code>.cproject</code> and <code>.project</code> of the project here. If you are using Eclipse, just import the folder that contains the source code.</li>
+</ul>
+
+      <footer class="site-footer">
+        <span class="site-footer-owner"><a href="https://github.com/marker68/second-candidate">Second-candidate</a> is maintained by <a href="https://github.com/marker68">marker68</a>.</span>
+
+        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</span>
+      </footer>
+
+    </section>
+
+  
+  </body>
+</html>
+
