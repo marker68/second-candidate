@@ -1,0 +1,11 @@
+language: cpp
+
+compiler:
+  - clang
+  - g++
+
+os:
+  - linux
+  - osx
+
+script: cmake -DBUILD_TEST=ON -H. -Bbuild && cmake --build build -- -j3

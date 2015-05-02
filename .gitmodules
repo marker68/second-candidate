@@ -1,0 +1,6 @@
+[submodule "lib/OpenBLAS"]
+	path = lib/OpenBLAS
+	url = https://github.com/marker68/OpenBLAS.git
+[submodule "lib/googletest"]
+	path = lib/googletest
+	url = https://github.com/marker68/googletest

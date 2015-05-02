@@ -1,0 +1,55 @@
+/git-submodule
+/*.txt
+/*.csv
+/*/*.txt
+/*.html
+/lib/*.a
+/lib/*.so*
+/lib/*.dylib
+/lib/*.dll
+/include/cblas.h
+/include/f77blas.h
+/include/lapacke*
+/include/openblas_config.h
+/.autotools
+/spec.i
+/.cproject
+/*~
+/x86
+/x64
+/doc/html
+/doc/latex
+/*.xml
+/data/*
+/build
+/bin
+*.pydevproject
+.metadata
+.gradle
+bin/
+tmp/
+*.tmp
+*.bak
+*.swp
+*~.nib
+local.properties
+.settings/
+.loadpath
+
+# External tool builders
+.externalToolBuilders/
+
+# Locally stored "Eclipse launch configurations"
+*.launch
+
+# CDT-specific
+.cproject
+
+# PDT-specific
+.buildpath
+
+# sbteclipse plugin 
+.target
+
+# TeXlipse plugin
+.texlipse
