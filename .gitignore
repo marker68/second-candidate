@@ -19,7 +19,7 @@
 /doc/html
 /doc/latex
 /*.xml
-/data/*
+/data/*.*
 /build
 /bin
 *.pydevproject

@@ -1,5 +1,5 @@
 /*
- * pq_algorithm.cpp
+ * sc_algorithm.cpp
  *
  *  Created on: 2014/12/10
  *      Author: hallab

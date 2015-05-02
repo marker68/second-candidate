@@ -20,7 +20,7 @@ include_directories(${PROJECT_SOURCE_DIR}/lib/simple-cluster/include)
     
 # WE NEED OPENMP
 find_package(OpenMP REQUIRED)
-find_package(Boost REQUIRED)
+#find_package(Boost REQUIRED)
 
 # This project uses Google Testing Framework and
 # we added GoogleTest as a sub-project. The version

@@ -5,8 +5,8 @@
  *      Author: Nguyen Anh Tuan <t_nguyen@hal.t.u-tokyo.ac.jp>
  */
 
-#ifndef PQ_ALGORITHM_H_
-#define PQ_ALGORITHM_H_
+#ifndef SC_ALGORITHM_H_
+#define SC_ALGORITHM_H_
 #include <iostream>
 #include <vector>
 #include <algorithm>
@@ -216,4 +216,4 @@ inline float distance_l2(float * x, float * y, int n) {
 
 
 
-#endif /* PQ_ALGORITHM_H_ */
+#endif /* SC_ALGORITHM_H_ */

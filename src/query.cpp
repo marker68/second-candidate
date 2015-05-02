@@ -1,5 +1,5 @@
 /*
- * pq_query.cpp
+ * query.cpp
  *
  *  Created on: 2014/10/15
  *      Author: Nguyen Anh Tuan <t_nguyen@hal.t.u-tokyo.ac.jp>

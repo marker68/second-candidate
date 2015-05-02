@@ -1,5 +1,5 @@
 /*
- * pq_query.h
+ * query.h
  *
  *  Created on: 2014/10/15
  *      Author: Nguyen Anh Tuan <t_nguyen@hal.t.u-tokyo.ac.jp>

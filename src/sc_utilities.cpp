@@ -1,8 +1,8 @@
 /*
- * pq_utilities.cpp
+ * sc_utilities.cpp
  *
  *  Created on: 2014/10/31
- *      Author: hallab
+ *      Author: Nguyen Anh Tuan <t_nguyen@hal.t.u-tokyo.ac.jp>
  */
 
 #include <iostream>

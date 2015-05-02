@@ -5,8 +5,8 @@
  *      Author: Nguyen Anh Tuan <t_nguyen@hal.t.u-tokyo.ac.jp>
  */
 
-#ifndef PQ_MULTI_QUERY_H_
-#define PQ_MULTI_QUERY_H_
+#ifndef MULTI_QUERY_H_
+#define MULTI_QUERY_H_
 
 #include <iostream>
 #include <vector>
@@ -273,4 +273,4 @@ inline void MultiQuery::search_multi2(float * query,
 }
 } /* namespace PQLearn */
 
-#endif /* PQ_MULTI_QUERY_H_ */
+#endif /* MULTI_QUERY_H_ */

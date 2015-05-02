@@ -1,12 +1,12 @@
 /*
- * mr_quantizer.h
+ * sc_quantizer.h
  *
  *  Created on: 2014/12/27
  *      Author: Nguyen Anh Tuan <t_nguyen@hal.t.u-tokyo.ac.jp>
  */
 
-#ifndef MR_QUANTIZER_H_
-#define MR_QUANTIZER_H_
+#ifndef SC_QUANTIZER_H_
+#define SC_QUANTIZER_H_
 
 #include <iostream>
 #include <cstdio>
@@ -134,4 +134,4 @@ inline void SCQuantizer<DataType>::calc_residual_vector(bool verbose) {
 
 } /* namespace PQLearn */
 
-#endif /* MR_QUANTIZER_H_ */
+#endif /* SC_QUANTIZER_H_ */

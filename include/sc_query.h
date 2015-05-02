@@ -1,12 +1,12 @@
 /*
- * mr_query.h
+ * sc_query.h
  *
  *  Created on: 2014/12/19
  *      Author: Nguyen Anh Tuan <t_nguyen@hal.t.u-tokyo.ac.jp>
  */
 
-#ifndef PQ_MR_QUERY2_H_
-#define PQ_MR_QUERY2_H_
+#ifndef SC_QUERY_H
+#define SC_QUERY_H
 
 #include <iostream>
 #include <algorithm>

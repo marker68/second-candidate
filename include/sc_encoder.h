@@ -5,8 +5,8 @@
  *      Author: Nguyen Anh Tuan <t_nguyen@hal.t.u-tokyo.ac.jp>
  */
 
-#ifndef SRC_MREncoder2_H_
-#define SRC_MREncoder2_H_
+#ifndef SC_ENCODER_H
+#define SC_ENCODER_H
 
 #include <iostream>
 #include <algorithm>

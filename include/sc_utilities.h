@@ -1,12 +1,12 @@
 /*
- * pq_utilities.h
+ * sc_utilities.h
  *
  *  Created on: 2014/06/27
  *      Author: Nguyen Anh Tuan <t_nguyen@hal.t.u-tokyo.ac.jp>
  */
 
-#ifndef PQ_UTILITIES_H_
-#define PQ_UTILITIES_H_
+#ifndef SC_UTILITIES_H_
+#define SC_UTILITIES_H_
 
 #include <iostream>
 #include <fstream>
@@ -1234,4 +1234,4 @@ inline void create_subset(
 }
 }
 
-#endif /* PQ_UTILITIES_H_ */
+#endif /* SC_UTILITIES_H_ */
