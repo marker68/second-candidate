@@ -23,13 +23,6 @@ typedef struct {
 	vector<unsigned char> codes; // the codes of data in this cell
 } Bucket;
 
-typedef struct {
-	int L = 0;
-	vector<int> pid;
-	vector<unsigned char> codes;
-	int h, l;
-} TreeBucket;
-
 } /* namespace PQLearn */
 
 #endif /* BUCKET_H_ */
