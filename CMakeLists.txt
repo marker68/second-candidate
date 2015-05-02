@@ -19,7 +19,7 @@ add_subdirectory(lib/simple-cluster)
 include_directories(${PROJECT_SOURCE_DIR}/lib/simple-cluster/include)
     
 # WE NEED OPENMP
-find_package(OpenMP REQUIRED)
+find_package(OpenMP)
 #find_package(Boost REQUIRED)
 
 # This project uses Google Testing Framework and
