@@ -9,9 +9,9 @@ SecondCandidate
 This project is the source code of the paper "**Searching for nearest neighbors with a dense space partitioning**".
 In this project, we achieved to create a library for nearest neighbors search with the following features:
 
-* An implementation of **Product Quantization for Approximated Nearest Neighbor Search** 
-* An implementation of **the inverted multi-index**
-* The method that is described in **Searching for nearest neighbors with a dense space partitioning**
+* An implementation of **Product Quantization for Approximated Nearest Neighbor Search [1]** 
+* An implementation of **the inverted multi-index [2]**
+* An implementation of the method that is described in **Searching for nearest neighbors with a dense space partitioning [3]**
 
 ## References
 
