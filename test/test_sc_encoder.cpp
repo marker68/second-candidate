@@ -25,6 +25,8 @@
 using namespace std;
 using namespace SC;
 
+char config_file[256];
+
 /**
  * Customized test case for testing
  */
@@ -34,6 +36,10 @@ protected:
 	// Called before the first test in this test case.
 	// Can be omitted if not needed.
 	static void SetUpTestCase() {
+		ifstream input;
+		input.open(config_file, ios::in);
+		input >> cq_in >> mrq_in >> base_data >> codebook_out;
+		input.close();
 	}
 
 	// Per-test-case tear-down.
@@ -49,26 +55,26 @@ protected:
 public:
 	// Some expensive resource shared by all tests.
 	static SCEncoder e;
+	static char cq_in[256], mrq_in[256], base_data[256], codebook_out[256];
 };
 
 // Global variables
 SCEncoder EncoderTest::e(3);
 
+char EncoderTest::cq_in[256];
+char EncoderTest::mrq_in[256];
+char EncoderTest::base_data[256];
+char EncoderTest::codebook_out[256];
+
 TEST_F(EncoderTest, test1) {
 	e.load_codebooks(
-			"./data/codebooks/sift_test64_8_cq.ctr_",
-			"./data/codebooks/sift_test64_8_pq.ctr_",
+			cq_in,
+			mrq_in,
 			true);
-	PQConfig config = e.get_config();
-	EXPECT_EQ(1,config.mc);
-	EXPECT_EQ(8,config.mp);
-	EXPECT_EQ(128,config.dim);
-	EXPECT_EQ(64,config.kc);
-	EXPECT_EQ(256,config.kp);
 }
 
 TEST_F(EncoderTest, test2) {
-	e.encode<unsigned char>("./data/sift/sift_base.bvecs",4,false);
+	e.encode<unsigned char>(base_data,4,false);
 }
 
 TEST_F(EncoderTest, test3) {
@@ -76,19 +82,26 @@ TEST_F(EncoderTest, test3) {
 }
 
 TEST_F(EncoderTest, test4) {
-	e.output("./data/codebooks","sift_test64_8",true);
+	e.output("./data/codebooks",codebook_out,true);
 }
 
 int main(int argc, char * argv[]) {
-	/*
+	/**
 	 * The method is initializes the Google framework and must be called before RUN_ALL_TESTS
 	 **/
 	::testing::InitGoogleTest(&argc, argv);
+
+	if(argc != 2) {
+		cout << "Usage: " << argv[0] << " config_file" << endl;
+		exit(EXIT_FAILURE);
+	}
+
+	snprintf(config_file, 256, "%s",argv[1]);
 
 	/**
 	 * RUN_ALL_TESTS automatically detects and runs all the tests defined using the TEST macro.
 	 * It's must be called only once in the code because multiple calls lead to conflicts and,
 	 * therefore, are not supported.
-	 */
+	 * */
 	return RUN_ALL_TESTS();
 }

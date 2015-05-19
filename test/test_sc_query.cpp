@@ -21,6 +21,8 @@
 using namespace std;
 using namespace SC;
 
+char config_file[256];
+
 /**
  * Customized test case for testing
  */
@@ -30,8 +32,6 @@ protected:
 	// Called before the first test in this test case.
 	// Can be omitted if not needed.
 	static void SetUpTestCase() {
-		strcpy(setting_path, "./data/config/test_mr_query2.txt");
-		sprintf(db_prefix,"test");
 	}
 
 	// Per-test-case tear-down.
@@ -51,10 +51,12 @@ protected:
 public:
 	// Some expensive resource shared by all tests.
 	static char
-	setting_path[256],
 	base_dir[256],
 	query_path[256],
-	db_prefix[256];
+	db_prefix[256],
+	cq_in[256],
+	mrq_in[256],
+	code_data[256];
 	static SCQuery * worker;
 	static float * data;
 	static int d, w, T, N, kc, M;
@@ -62,9 +64,11 @@ public:
 
 // Global variables
 char QueryTest::base_dir[256];
-char QueryTest::setting_path[256];
 char QueryTest::query_path[256];
 char QueryTest::db_prefix[256];
+char QueryTest::cq_in[256];
+char QueryTest::mrq_in[256];
+char QueryTest::code_data[256];
 SCQuery * QueryTest::worker;
 float * QueryTest::data;
 int QueryTest::d;
@@ -79,8 +83,8 @@ int QueryTest::M;
  */
 TEST_F(QueryTest, test0) {
 	ifstream input;
-	input.open(setting_path, ios::in);
-	input >> base_dir >> query_path
+	input.open(config_file, ios::in);
+	input >> base_dir >> query_path >> db_prefix
 	>> d >> w >> T >> kc >> M;
 	input.close();
 }
@@ -91,10 +95,10 @@ TEST_F(QueryTest, test1) {
 
 TEST_F(QueryTest, test2) {
 	worker->load_codebooks(
-			"./data/codebooks/sift_test1_8_cq.ctr_",
-			"./data/codebooks/sift_test1_8_pq.ctr_",
+			cq_in,
+			mrq_in,
 			true);
-	worker->load_encoded_data("./data/codebooks/sift_test1_8_2_mr2_ivf.edat_",false);
+	worker->load_encoded_data(code_data,false);
 	size_t size = worker->get_full_size();
 	size_t size2 = size * size;
 	cout << "Maximum non-empty cells: " << size2 - size << endl;
@@ -287,14 +291,23 @@ if(CreateDirectory(data_folder, nullptr) == 0) {
 			1000.0f * t / CLOCKS_PER_SEC << "[ms]" << endl;
 }
 
-int main(int argc, char * argv[])
-{
-	/*The method is initializes the Google framework and must be called before RUN_ALL_TESTS */
+int main(int argc, char * argv[]) {
+	/**
+	 * The method is initializes the Google framework and must be called before RUN_ALL_TESTS
+	 **/
 	::testing::InitGoogleTest(&argc, argv);
 
-	/*RUN_ALL_TESTS automatically detects and runs all the tests defined using the TEST macro.
-It's must be called only once in the code because multiple calls lead to conflicts and,
-therefore, are not supported.
-	 */
+	if(argc != 2) {
+		cout << "Usage: " << argv[0] << " config_file" << endl;
+		exit(EXIT_FAILURE);
+	}
+
+	snprintf(config_file, 256, "%s",argv[1]);
+
+	/**
+	 * RUN_ALL_TESTS automatically detects and runs all the tests defined using the TEST macro.
+	 * It's must be called only once in the code because multiple calls lead to conflicts and,
+	 * therefore, are not supported.
+	 * */
 	return RUN_ALL_TESTS();
 }
