@@ -107,7 +107,7 @@ TEST_F(QueryTest, test2) {
 }
 
 TEST_F(QueryTest, test3) {
-	N = load_data<float>(query_path,data,4,d,true);
+	N = load_and_convert_data<unsigned char,float>(query_path,data,4,d,true);
 //	worker->load_data<unsigned char>("./data/sift/sift_base.bvecs",4,true);
 	worker->pre_compute1();
 }

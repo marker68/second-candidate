@@ -47,12 +47,12 @@ protected:
 
 public:
 	// Some expensive resource shared by all tests.
-	static SCQuantizer<float> * mrq;
+	static SCQuantizer<unsigned char> * mrq;
 	static int d, m, kc, k;
 	static char learn_data[256], cq_out[256], mrq_out[256];
 };
 
-SCQuantizer<float> * QuantizerTest::mrq;
+SCQuantizer<unsigned char> * QuantizerTest::mrq;
 int QuantizerTest::d;
 int QuantizerTest::m;
 int QuantizerTest::kc;
@@ -65,7 +65,7 @@ char QuantizerTest::mrq_out[256];
  * Create product quantizer(m=8)
  */
 TEST_F(QuantizerTest, test1) {
-	mrq = new SCQuantizer<float>(d,m,kc,4,k,true);
+	mrq = new SCQuantizer<unsigned char>(d,m,kc,4,k,true);
 	mrq->load_data(learn_data,true);
 }
 
