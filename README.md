@@ -1,8 +1,5 @@
 SecondCandidate
 ================================
-[![Build Status](https://travis-ci.org/marker68/second-candidate.svg)](https://travis-ci.org/marker68/second-candidate)
-
-
 
 ## Introduction
 
