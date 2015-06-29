@@ -27,14 +27,23 @@ In this project, we achieved to create a library for nearest neighbors search wi
 
 We use CMake as the build system. On terminal,
 ```bash
-$ git clone git@github.com:your/repo.git pq-learn
-$ cd ./pq-learn
+$ git clone git@github.com:your/repo.git sc
+$ cd sc
 $ git submodule update --init
 $ cmake -H. -Bbuild && cmake --build build -- -j4
 # OR IF YOU WANT TO BUILD TESTS
 $ cmake -DBUILD_TEST=ON -H. -Bbuild && cmake --build build -- -j4
 ```
 This script will create binaries in your `bin/` and `lib/` directories. 
+
+You can also use the script in `scripts` directory to build this library.
+```bash
+$ cd sc
+# $ ./scripts build.sh all /path/to/cmake /path/to/cc /path/to/c++
+$ ./scripts/build.sh all cmake gcc g++
+```
+
+To rebuild this library you can use `./scripts/build.sh clean`.
 
 ## Documentation
 
