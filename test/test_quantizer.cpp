@@ -1,5 +1,5 @@
 /*
- * test_quantizer.cpp
+ * quantizer_test.cpp
  *
  *  Created on: 2014/09/04
  *      Author: Nguyen Anh Tuan <t_nguyen@hal.t.u-tokyo.ac.jp>
@@ -14,7 +14,7 @@
 using namespace std;
 using namespace SC;
 
-int param_k;
+char config[256];
 
 /**
  * Customized test case for testing
@@ -25,9 +25,11 @@ protected:
 	// Called before the first test in this test case.
 	// Can be omitted if not needed.
 	static void SetUpTestCase() {
-		d = 128;
-		m = 8;
-		k = param_k;
+		ifstream input;
+		input.open(config, ios::in);
+		input >> filename >> cq_path >> pq_path >>
+		d >> c >> m >> k >> offset >> type;
+		input.close();
 	}
 
 	// Per-test-case tear-down.
@@ -45,106 +47,75 @@ protected:
 public:
 	// Some expensive resource shared by all tests.
 	static char filename[256];
-	static int d, m, k;
+	static char cq_path[256], pq_path[256];
+	static int d, c, m, k, offset, type;
 	static PQQuantizer<float> * cq;
 };
 
 char QuantizerTest::filename[256];
+char QuantizerTest::cq_path[256];
+char QuantizerTest::pq_path[256];
 int QuantizerTest::d;
+int QuantizerTest::c;
 int QuantizerTest::m;
 int QuantizerTest::k;
+int QuantizerTest::type;
+int QuantizerTest::offset;
 PQQuantizer<float> * QuantizerTest::cq;
-
-TEST_F(QuantizerTest, test1) {
-	strcpy(filename,"./data/sift/sift_base.fvecs");
-	PQQuantizer<float> pq(d,m,k,4,true);
-	pq.load_data(filename,true);
-	EXPECT_EQ(1000000,pq.size());
-}
 
 /**
  * Create coarse quantizer(m=1)
  */
-TEST_F(QuantizerTest, test2) {
-	strcpy(filename,"./data/sift/sift_base.fvecs");
-	cq = new PQQuantizer<float>(d,1,k,4,false);
+TEST_F(QuantizerTest, test1) {
+	cq = new PQQuantizer<float>(d,c,k,offset,false);
+	cq->set_type(type);
 	cq->load_data(filename,true);
-	EXPECT_EQ(1000000,cq->size());
+}
+
+TEST_F(QuantizerTest, test2) {
+	cq->create_sub_quantizers(false);
 }
 
 TEST_F(QuantizerTest, test3) {
-	cq->create_sub_quantizers(false);
+	if(cq->get_type() == 2)
+		cq->distortion(false);
+	cout << "Distortion is " << cq->error << endl;
 }
 
 TEST_F(QuantizerTest, test4) {
-	cout << "Distortion is " << cq->distortion(false) << endl;
-}
-
-TEST_F(QuantizerTest, test5) {
-	sprintf(filename, "./data/codebooks/cq_%d",k);
-	cq->output(filename,true);
+	cq->output(cq_path,true);
 }
 
 /**
  * Create product quantizer(m=8)
  */
-TEST_F(QuantizerTest, test6) {
+TEST_F(QuantizerTest, test5) {
 	cq->set_params(1,m,256);
-	EXPECT_EQ(1000000,cq->size());
+}
+
+TEST_F(QuantizerTest, test6) {
+	char tmp[256];
+	snprintf(tmp,256,"%s.ctr_",cq_path);
+	char * filename1[] = {tmp};
+	cq->load_codebooks(filename1,true);
 }
 
 TEST_F(QuantizerTest, test7) {
-	sprintf(filename, "./data/codebooks/cq_%d.ctr_",k);
-	char * filename1[] = {filename};
-	cq->load_codebooks(filename1,true);
+	cq->calc_residual_vector(true);
 }
 
 TEST_F(QuantizerTest, test8) {
-	cq->calc_residual_vector(true);
+	cq->create_sub_quantizers(false);
 }
 
 TEST_F(QuantizerTest, test9) {
-	cq->create_sub_quantizers(false);
+	if(cq->get_type() == 2)
+		cq->distortion(false);
+	cout << "Distortion is " << cq->error << endl;
 }
 
 TEST_F(QuantizerTest, test10) {
-	cout << "Distortion is " << cq->distortion(false) << endl;
-}
-
-TEST_F(QuantizerTest, test11) {
-	sprintf(filename, "./data/codebooks/pq_%d",k);
-	cq->output(filename,true);
-}
-
-/**
- * Create product quantizer(m=8)
- */
-TEST_F(QuantizerTest, DISABLED_test12) {
-	cq->set_params(1,m,k);
-	EXPECT_EQ(100000,cq->size());
-}
-
-TEST_F(QuantizerTest, DISABLED_test13) {
-	sprintf(filename, "./data/codebooks/pq_%d",k);
-	char * filename1[] = { filename};
-	cq->load_codebooks(filename1,true);
-}
-
-TEST_F(QuantizerTest, DISABLED_test14) {
-	cq->calc_residual_vector(true);
-}
-
-TEST_F(QuantizerTest, DISABLED_test15) {
-	cq->create_sub_quantizers(false);
-}
-
-TEST_F(QuantizerTest, DISABLED_test16) {
-	cout << "Distortion is " << cq->distortion(false) << endl;
-}
-
-TEST_F(QuantizerTest, DISABLED_test17) {
-	sprintf(filename, "./data/codebooks/rq_%d",k);
-	cq->output(filename,true);
+	cq->output(pq_path,true);
 }
 
 int main(int argc, char * argv[]) {
@@ -152,11 +123,11 @@ int main(int argc, char * argv[]) {
 	::testing::InitGoogleTest(&argc, argv);
 
 	if(argc != 2) {
-		cout << "Usage: " << argv[0] << " K" << endl;
+		cout << "Usage: " << argv[0] << " config_file" << endl;
 		exit(EXIT_FAILURE);
 	}
 
-	param_k = atoi(argv[1]);
+	snprintf(config,256,"%s",argv[1]);
 
 	/*RUN_ALL_TESTS automatically detects and runs all the tests defined using the TEST macro.
 	It's must be called only once in the code because multiple calls lead to conflicts and,

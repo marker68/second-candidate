@@ -7,7 +7,7 @@ if(MSVC)
     set_target_properties(test_quantizer PROPERTIES COMPILE_FLAGS "/MT ${OpenMP_CXX_FLAGS}")
 endif()
 target_link_libraries(test_quantizer ${TEST_LIBS_FLAGS})
-add_dependencies(test_quantizer gtest_main simplecluster_static openblas)
+add_dependencies(test_quantizer gtest_main simplecluster openblas vlfeat)
 
 add_executable(
     test_encoder
@@ -18,7 +18,7 @@ if(MSVC)
     set_target_properties(test_encoder PROPERTIES COMPILE_FLAGS "/MT ${OpenMP_CXX_FLAGS}")
 endif()
 target_link_libraries(test_encoder ${TEST_LIBS_FLAGS})
-add_dependencies(test_encoder gtest_main simplecluster_static openblas)
+add_dependencies(test_encoder gtest_main simplecluster openblas vlfeat)
 
 add_executable(
     test_query
@@ -29,7 +29,7 @@ if(MSVC)
     set_target_properties(test_query PROPERTIES COMPILE_FLAGS "/MT ${OpenMP_CXX_FLAGS}")
 endif()
 target_link_libraries(test_query ${TEST_LIBS_FLAGS})
-add_dependencies(test_query gtest_main simplecluster_static openblas)
+add_dependencies(test_query gtest_main simplecluster openblas vlfeat)
 
 add_executable(
     test_multi_query
@@ -41,7 +41,7 @@ if(MSVC)
     set_target_properties(test_multi_query PROPERTIES COMPILE_FLAGS "/MT ${OpenMP_CXX_FLAGS}")
 endif()
 target_link_libraries(test_multi_query ${TEST_LIBS_FLAGS})
-add_dependencies(test_multi_query gtest_main simplecluster_static openblas)
+add_dependencies(test_multi_query gtest_main simplecluster openblas vlfeat)
 
 add_executable(
     test_sc_quantizer
@@ -53,7 +53,7 @@ if(MSVC)
     set_target_properties(test_sc_quantizer PROPERTIES COMPILE_FLAGS "/MT ${OpenMP_CXX_FLAGS}")
 endif()
 target_link_libraries(test_sc_quantizer ${TEST_LIBS_FLAGS})
-add_dependencies(test_sc_quantizer gtest_main simplecluster_static openblas)
+add_dependencies(test_sc_quantizer gtest_main simplecluster openblas vlfeat)
 
 
 add_executable(
@@ -66,7 +66,7 @@ if(MSVC)
     set_target_properties(test_sc_encoder PROPERTIES COMPILE_FLAGS "/MT ${OpenMP_CXX_FLAGS}")
 endif()
 target_link_libraries(test_sc_encoder ${TEST_LIBS_FLAGS})
-add_dependencies(test_sc_encoder gtest_main simplecluster_static openblas)
+add_dependencies(test_sc_encoder gtest_main simplecluster openblas vlfeat)
 
 add_executable(
     test_sc_query
@@ -78,7 +78,7 @@ if(MSVC)
     set_target_properties(test_sc_query PROPERTIES COMPILE_FLAGS "/MT ${OpenMP_CXX_FLAGS}")
 endif()
 target_link_libraries(test_sc_query ${TEST_LIBS_FLAGS})
-add_dependencies(test_sc_query gtest_main simplecluster_static openblas)
+add_dependencies(test_sc_query gtest_main simplecluster openblas vlfeat)
 
 add_executable(
 test_evaluation
@@ -89,4 +89,4 @@ target_link_libraries(test_evaluation ${TEST_LIBS_FLAGS})
 if(MSVC)
     set_target_properties(test_evaluation PROPERTIES COMPILE_FLAGS "/MT ${OpenMP_CXX_FLAGS}")
 endif()
-add_dependencies(test_evaluation gtest_main simplecluster_static openblas)
+add_dependencies(test_evaluation gtest_main simplecluster openblas vlfeat)

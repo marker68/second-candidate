@@ -4,3 +4,6 @@
 [submodule "lib/googletest"]
 	path = lib/googletest
 	url = https://github.com/marker68/googletest
+[submodule "lib/vlfeat"]
+	path = lib/vlfeat
+	url = https://github.com/vlfeat/vlfeat.git

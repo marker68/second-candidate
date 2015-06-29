@@ -15,13 +15,36 @@ include_directories(${PROJECT_INCLUDE_DIR})
 include_directories(${PROJECT_SOURCE_DIR})
 
 # This project uses SIMPLE-CLUSTERS v1.0
-add_subdirectory(lib/simple-cluster)
 include_directories(${PROJECT_SOURCE_DIR}/lib/simple-cluster/include)
     
 # WE NEED OPENMP
 find_package(OpenMP)
-#find_package(Boost REQUIRED)
+find_package(Boost REQUIRED)
 
+# This project uses SIMPLE-CLUSTERS v1.0
+# add_subdirectory(lib/simple-cluster)
+add_custom_target(
+    simplecluster
+    COMMAND git submodule update --init &&
+    CC=gcc CXX=g++ cmake -H. -Bbuild && 
+    cmake --build build && 
+    cp lib/libsimplecluster* ${CMAKE_LIBRARY_DIR}/
+    WORKING_DIRECTORY ${CMAKE_LIBRARY_DIR}/simple-cluster)
+include_directories(${PROJECT_SOURCE_DIR}/lib/simple-cluster/include)
+
+# BUILD VLFEAT
+add_custom_target(
+    vlfeat
+    COMMAND make && cp bin/*/libvl.* ${CMAKE_LIBRARY_DIR}/ && cp bin/*/libvl.* ${CMAKE_BINARY_DIR}/
+    WORKING_DIRECTORY ${CMAKE_LIBRARY_DIR}/vlfeat)
+include_directories(${CMAKE_LIBRARY_DIR}/vlfeat)
+
+# BUILD OPENBLAS
+add_custom_target(
+    openblas
+    COMMAND make && make PREFIX=${PROJECT_SOURCE_DIR} install
+    WORKING_DIRECTORY ${CMAKE_LIBRARY_DIR}/OpenBLAS)
+    
 # This project uses Google Testing Framework and
 # we added GoogleTest as a sub-project. The version
 # of this distribution is 1.7.0.
@@ -43,11 +66,21 @@ file(GLOB PROJECT_SRCS
 if(NOT MSVC)
 	if (OPENMP_FOUND)
     	list (APPEND CMAKE_CXX_FLAGS 
-    	"-Wno-write-strings -O3 -std=c++0x ${CMAKE_CXX_FLAGS} -g -ftest-coverage -fprofile-arcs ${OpenMP_CXX_FLAGS}")
+    	"-fopenmp-simd -Wopenmp-simd -Wno-write-strings -O3 -std=c++0x ${CMAKE_CXX_FLAGS} ${OpenMP_CXX_FLAGS}")
 	else()
     	list(APPEND CMAKE_CXX_FLAGS 
-    	"-Wno-write-strings -O3 -std=c++0x ${CMAKE_CXX_FLAGS} -g -ftest-coverage -fprofile-arcs")
+    	"-Wno-write-strings -O3 -std=c++0x ${CMAKE_CXX_FLAGS}")
 	endif()
+endif()
+
+if(NOT MSVC)
+    set(LIBS_FLAGS 
+    m pthread simplecluster_static 
+    ${CMAKE_LIBRARY_DIR}/libopenblas.a 
+    gfortran ${Boost_LIBRARIES}
+    vl)
+else()
+    set(LIBS_FLAGS m simplecluster_static openblas gfortran ${Boost_LIBRARIES} vl)
 endif()
 
 # Create a shared library file
@@ -59,20 +92,20 @@ add_library(${PROJECT_NAME}_static STATIC ${PROJECT_SRCS})
 if(MSVC)
     set_target_properties(${PROJECT_NAME}_static PROPERTIES COMPILE_FLAGS "/MT ${OpenMP_CXX_FLAGS}")
 endif()
+target_link_libraries(${PROJECT_NAME} ${LIBS_FLAGS})
+target_link_libraries(${PROJECT_NAME}_static ${LIBS_FLAGS})
+add_dependencies(${PROJECT_NAME} vlfeat openblas)
+add_dependencies(${PROJECT_NAME}_static vlfeat openblas)
 
-# BUILD OPENBLAS
-add_custom_target(
-    openblas
-    COMMAND make && make PREFIX=${PROJECT_SOURCE_DIR} install
-    WORKING_DIRECTORY ${CMAKE_LIBRARY_DIR}/OpenBLAS)
-add_dependencies(${PROJECT_NAME} openblas)
-add_dependencies(${PROJECT_NAME}_static openblas)
-
-# OUTPUT EXECUTABLES
 if(NOT MSVC)
-	set(TEST_LIBS_FLAGS ${CMAKE_LIBRARY_DIR}/libgtest_main.a m gtest pthread simplecluster_static ${CMAKE_LIBRARY_DIR}/libopenblas.a gfortran ${Boost_LIBRARIES})
+	set(TEST_LIBS_FLAGS 
+	${CMAKE_LIBRARY_DIR}/libgtest_main.a 
+	m gtest pthread simplecluster_static 
+	${CMAKE_LIBRARY_DIR}/libopenblas.a 
+	gfortran ${Boost_LIBRARIES}
+	vl)
 else()
-	set(TEST_LIBS_FLAGS gtest simplecluster_static openblas gfortran ${Boost_LIBRARIES})
+	set(TEST_LIBS_FLAGS gtest simplecluster_static openblas gfortran ${Boost_LIBRARIES} vl)
 endif()
 
 ## Tests
