@@ -700,7 +700,7 @@ inline int linear_search(
 	DataType * tmp = data;
 	int i, ans = -1;
 	for(i = 0; i < N; i++) {
-		d_tmp = SimpleCluster::distance_l2_square<DataType>(query,tmp,d);
+		d_tmp = SimpleCluster::distance_l2<DataType>(query,tmp,d);
 		if(d_min > d_tmp) {
 			d_min = d_tmp;
 			ans = i;
@@ -741,7 +741,7 @@ inline void linear_knn(
 	int i, pos = 0;
 	for(i = 0; i < N; i++) {
 		v_tmp[i] = v_tmp[i+N] =
-				SimpleCluster::distance_l2_square<DataType>(query,tmp,d);
+				SimpleCluster::distance_l2<DataType>(query,tmp,d);
 		tmp += d;
 	}
 	nth_element(v_tmp+N,v_tmp+N+k-1,v_tmp+(N<<1));

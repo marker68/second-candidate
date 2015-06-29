@@ -7,3 +7,6 @@
 [submodule "lib/vlfeat"]
 	path = lib/vlfeat
 	url = https://github.com/vlfeat/vlfeat.git
+[submodule "lib/simple-cluster"]
+	path = lib/simple-cluster
+	url = https://github.com/marker68/simple-cluster.git
