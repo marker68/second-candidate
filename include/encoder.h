@@ -144,7 +144,7 @@ inline void Encoder::encode(
 					// Linear search
 					v_tmp4 = v_tmp3;
 					for(k = 0; k < config.kc; k++) {
-						d_tmp = SimpleCluster::distance_l2_square<float>(
+						d_tmp = SimpleCluster::distance_l2<float>(
 								v_tmp5, v_tmp4,bsc);
 						if(d > d_tmp) {
 							d = d_tmp;
@@ -171,7 +171,7 @@ inline void Encoder::encode(
 					d = DBL_MAX;
 					// Linear search
 					for(k = 0; k < config.kp; k++) {
-						d_tmp = SimpleCluster::distance_l2_square<float>(
+						d_tmp = SimpleCluster::distance_l2<float>(
 								v_tmp4, v_tmp3,bsp);
 						if(d > d_tmp) {
 							d = d_tmp;
@@ -290,7 +290,7 @@ inline void Encoder::rencode(
 					d = DBL_MAX;
 					// Linear search
 					for(k = 0; k < config.kp; k++) {
-						d_tmp = SimpleCluster::distance_l2_square<float>(
+						d_tmp = SimpleCluster::distance_l2<float>(
 								v_tmp4, v_tmp3,bsp);
 						if(d > d_tmp) {
 							d = d_tmp;

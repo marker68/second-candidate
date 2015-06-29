@@ -188,7 +188,7 @@ inline void PQQuery::pre_compute3(float * query) {
 	float * v_tmp1 = raw_data;
 	float * v_tmp2 = real_dist;
 	for(i = 0; i < config.N; i++) {
-		*(v_tmp2++) = SimpleCluster::distance_l2_square(query,v_tmp1,config.dim);
+		*(v_tmp2++) = SimpleCluster::distance_l2(query,v_tmp1,config.dim);
 		v_tmp1 += config.dim;
 	}
 }
@@ -306,7 +306,7 @@ inline void PQQuery::search_ivfadc(float * query,
 			}
 		} else {
 			for(j = 0; j < l; j++) {
-				dist[count] = SimpleCluster::distance_l2_square(
+				dist[count] = SimpleCluster::distance_l2(
 						query,raw_data + i_tmp[j] * config.dim,config.dim);
 				count++;
 			}

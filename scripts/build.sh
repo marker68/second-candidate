@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 CMAKE=$2
 CC=$3
 CXX=$4

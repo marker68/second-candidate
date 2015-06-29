@@ -254,7 +254,7 @@ inline void MultiQuery::search_multi2(float * query,
 			}
 		} else {
 			for(j = 0; j < l; j++) {
-				dist[count++] = SimpleCluster::distance_l2_square(
+				dist[count++] = SimpleCluster::distance_l2(
 						query,raw_data + i_tmp[j] * config.dim,config.dim);
 			}
 		}

@@ -13,9 +13,7 @@ set(LIBRARY_OUTPUT_PATH ${CMAKE_LIBRARY_DIR})
 set(PROJECT_INCLUDE_DIR ${PROJECT_SOURCE_DIR}/include)
 include_directories(${PROJECT_INCLUDE_DIR})
 include_directories(${PROJECT_SOURCE_DIR})
-
-# This project uses SIMPLE-CLUSTERS v1.0
-include_directories(${PROJECT_SOURCE_DIR}/lib/simple-cluster/include)
+link_directories(${CMAKE_LIBRARY_DIR})
     
 # WE NEED OPENMP
 find_package(OpenMP)
