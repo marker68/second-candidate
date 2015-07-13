@@ -144,7 +144,7 @@ PQQuantizer<DataType>::PQQuantizer (
 	}
 	if(dim <= 0 || part <= 0 || dim % part != 0) {
 		if(verbose)
-			cerr << "Error at parameters of PQQuantizer" << endl;
+			cerr << "Error at parameters of PQQuantizer: dim = " << dim << "; part = " << part << endl;
 		exit(EXIT_FAILURE);
 	}
 }

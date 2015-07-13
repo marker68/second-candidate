@@ -29,7 +29,7 @@ protected:
 		ifstream input;
 		input.open(config_file, ios::in);
 		input >> learn_data >> cq_out >> mrq_out
-		>> d >> m >> kc >> k;
+		>> d >> m >> kc >> k >> type;
 		input.close();
 	}
 
@@ -47,16 +47,17 @@ protected:
 
 public:
 	// Some expensive resource shared by all tests.
-	static SCQuantizer<unsigned char> * mrq;
-	static int d, m, kc, k;
+	static SCQuantizer<float> * mrq;
+	static int d, m, kc, k, type;
 	static char learn_data[256], cq_out[256], mrq_out[256];
 };
 
-SCQuantizer<unsigned char> * QuantizerTest::mrq;
+SCQuantizer<float> * QuantizerTest::mrq;
 int QuantizerTest::d;
 int QuantizerTest::m;
 int QuantizerTest::kc;
 int QuantizerTest::k;
+int QuantizerTest::type;
 char QuantizerTest::learn_data[256];
 char QuantizerTest::cq_out[256];
 char QuantizerTest::mrq_out[256];
@@ -65,8 +66,9 @@ char QuantizerTest::mrq_out[256];
  * Create product quantizer(m=8)
  */
 TEST_F(QuantizerTest, test1) {
-	mrq = new SCQuantizer<unsigned char>(d,m,kc,4,k,true);
+	mrq = new SCQuantizer<float>(d,m,kc,4,k,true);
 	mrq->load_data(learn_data,true);
+	mrq->set_type(type);
 }
 
 TEST_F(QuantizerTest, test2) {
@@ -83,7 +85,9 @@ TEST_F(QuantizerTest, test4) {
 }
 
 TEST_F(QuantizerTest, test5) {
-	cout << "Distortion is " << mrq->distortion(false) << endl;
+	if(mrq->get_type() == 2)
+		mrq->distortion(false);
+	cout << "Distortion is " << mrq->error << endl;
 }
 
 TEST_F(QuantizerTest, test6) {
