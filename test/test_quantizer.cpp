@@ -67,7 +67,7 @@ PQQuantizer<float> * QuantizerTest::cq;
  * Create coarse quantizer(m=1)
  */
 TEST_F(QuantizerTest, test1) {
-	cq = new PQQuantizer<float>(d,c,k,offset,false);
+	cq = new PQQuantizer<float>(d,c,k,offset,true);
 	cq->set_type(type);
 	cq->load_data(filename,true);
 }

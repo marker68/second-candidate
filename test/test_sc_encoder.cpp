@@ -38,7 +38,8 @@ protected:
 	static void SetUpTestCase() {
 		ifstream input;
 		input.open(config_file, ios::in);
-		input >> cq_in >> mrq_in >> base_data >> codebook_out;
+		input >> cq_in >> mrq_in >>
+		base_data >> out_path >> codebook_out >> offset;
 		input.close();
 	}
 
@@ -55,16 +56,20 @@ protected:
 public:
 	// Some expensive resource shared by all tests.
 	static SCEncoder e;
-	static char cq_in[256], mrq_in[256], base_data[256], codebook_out[256];
+	static char cq_in[256], mrq_in[256], base_data[256], out_path[256], codebook_out[256];
+	static int offset;
 };
 
 // Global variables
-SCEncoder EncoderTest::e(3);
+SCEncoder EncoderTest::e(2);
 
 char EncoderTest::cq_in[256];
 char EncoderTest::mrq_in[256];
 char EncoderTest::base_data[256];
 char EncoderTest::codebook_out[256];
+char EncoderTest::out_path[256];
+
+int EncoderTest::offset;
 
 TEST_F(EncoderTest, test1) {
 	e.load_codebooks(
@@ -74,7 +79,7 @@ TEST_F(EncoderTest, test1) {
 }
 
 TEST_F(EncoderTest, test2) {
-	e.encode<unsigned char>(base_data,4,false);
+	e.encode<float>(base_data,offset,false);
 }
 
 TEST_F(EncoderTest, test3) {
@@ -82,7 +87,7 @@ TEST_F(EncoderTest, test3) {
 }
 
 TEST_F(EncoderTest, test4) {
-	e.output("./data/codebooks",codebook_out,true);
+	e.output(out_path,codebook_out,true);
 }
 
 int main(int argc, char * argv[]) {
