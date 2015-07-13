@@ -103,7 +103,7 @@ inline void SCQuantizer<DataType>::calc_residual_vector(bool verbose) {
 						d = d2 = FLT_MAX;
 						v_tmp3 = v_tmp1;
 						for(k1 = 0; k1 < kk; k1++) {
-							d_tmp = SimpleCluster::distance_l2_square(tmp,v_tmp1,bs);
+							d_tmp = SimpleCluster::distance_l2(tmp,v_tmp1,bs);
 							if(d > d_tmp) {
 								d2 = d;
 								d = d_tmp;

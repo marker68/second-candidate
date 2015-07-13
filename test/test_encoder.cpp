@@ -24,7 +24,7 @@
 using namespace std;
 using namespace SC;
 
-int param_k;
+char config[256];
 
 /**
  * Customized test case for testing
@@ -35,6 +35,10 @@ protected:
 	// Called before the first test in this test case.
 	// Can be omitted if not needed.
 	static void SetUpTestCase() {
+		ifstream input;
+		input.open(config,ios::in);
+		input >> base >> cq_path >> pq_path >> output_path >> output_name >> offset;
+		input.close();
 	}
 
 	// Per-test-case tear-down.
@@ -50,31 +54,29 @@ protected:
 public:
 	// Some expensive resource shared by all tests.
 	static Encoder e;
+	static char base[256], cq_path[256], pq_path[256], output_path[256], output_name[256];
+	static int offset;
 };
 
 // Global variables
 Encoder EncoderTest::e;
+int EncoderTest::offset;
+char EncoderTest::base[256];
+char EncoderTest::cq_path[256];
+char EncoderTest::pq_path[256];
+char EncoderTest::output_path[256];
+char EncoderTest::output_name[256];
 
 TEST_F(EncoderTest, test1) {
-	char filename1[256], filename2[256];
-	sprintf(filename1,"./data/codebooks/cq_%d.ctr_",param_k);
-	sprintf(filename2,"./data/codebooks/pq_%d.ctr_",param_k);
 	e.load_codebooks(
-			filename1,
-			filename2,
+			cq_path,
+			pq_path,
 			true);
 	PQConfig config = e.get_config();
-	EXPECT_EQ(1,config.mc);
-	EXPECT_EQ(8,config.mp);
-	EXPECT_EQ(128,config.dim);
-	EXPECT_EQ(param_k,config.kc);
-	EXPECT_EQ(256,config.kp);
 }
 
 TEST_F(EncoderTest, test2) {
-	e.encode<float>("./data/sift/sift_base.fvecs",4,true);
-	PQConfig config = e.get_config();
-	EXPECT_EQ(1000000,config.N);
+	e.encode<float>(base,offset,true);
 }
 
 TEST_F(EncoderTest, test3) {
@@ -82,26 +84,7 @@ TEST_F(EncoderTest, test3) {
 }
 
 TEST_F(EncoderTest, test4) {
-	char name[256];
-	sprintf(name, "code_%d",param_k);
-	e.output("./data/codebooks",name,true);
-}
-
-TEST_F(EncoderTest, DISABLED_test5) {
-	e.set_mp(8);
-	char filename[256];
-	sprintf(filename, "./data/codebooks/code_%d_ivf.edat_",param_k);
-	e.load_encoded_data(filename,true);
-}
-
-TEST_F(EncoderTest, DISABLED_test6) {
-	e.rencode<unsigned char>("./data/sift/sift_base.bvecs",4,false);
-}
-
-TEST_F(EncoderTest, DISABLED_test7) {
-	char name[256];
-	sprintf(name, "code_%d_r",param_k);
-	e.output2("./data/codebooks",name,true);
+	e.output(output_path,output_name,true);
 }
 
 int main(int argc, char * argv[]) {
@@ -111,11 +94,11 @@ int main(int argc, char * argv[]) {
 	::testing::InitGoogleTest(&argc, argv);
 
 	if(argc != 2) {
-		cout << "Usage: " << argv[0] << " K" << endl;
+		cout << "Usage: " << argv[0] << " config_file" << endl;
 		exit(EXIT_FAILURE);
 	}
 
-	param_k = atoi(argv[1]);
+	snprintf(config,256,"%s",argv[1]);
 
 	/**
 	 * RUN_ALL_TESTS automatically detects and runs all the tests defined using the TEST macro.

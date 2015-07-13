@@ -34,6 +34,12 @@
 #include <unistd.h>
 #endif
 
+extern "C" {
+#include <vl/kmeans.h>
+#include <vl/generic.h>
+#include <vl/mathop.h>
+}
+
 #ifdef _OPENMP
 #include <omp.h>
 #endif
@@ -694,7 +700,7 @@ inline int linear_search(
 	DataType * tmp = data;
 	int i, ans = -1;
 	for(i = 0; i < N; i++) {
-		d_tmp = SimpleCluster::distance_l2_square<DataType>(query,tmp,d);
+		d_tmp = SimpleCluster::distance_l2<DataType>(query,tmp,d);
 		if(d_min > d_tmp) {
 			d_min = d_tmp;
 			ans = i;
@@ -735,7 +741,7 @@ inline void linear_knn(
 	int i, pos = 0;
 	for(i = 0; i < N; i++) {
 		v_tmp[i] = v_tmp[i+N] =
-				SimpleCluster::distance_l2_square<DataType>(query,tmp,d);
+				SimpleCluster::distance_l2<DataType>(query,tmp,d);
 		tmp += d;
 	}
 	nth_element(v_tmp+N,v_tmp+N+k-1,v_tmp+(N<<1));
@@ -1231,6 +1237,49 @@ inline void create_subset(
 		j = dist2(gen);
 	}
 	memcpy(tmp2,tmp + j * d,d * sizeof(DataType));
+}
+
+/**
+ * Execute the k-means algorithm of VLFeat library
+ */
+inline void vl_kmeans_exec(
+		float * data,
+		float *& centers,
+		unsigned int *& labels,
+		float *& distances,
+		size_t N,
+		size_t k,
+		size_t d,
+		int type,
+		VlVectorComparisonType dist_type,
+		double& energy,
+		bool verbose) {
+#ifdef _OPENMP
+    vl_set_num_threads(vl_get_max_threads());
+#endif
+
+    // Use float data
+	VlKMeans * kmeans = vl_kmeans_new (VL_TYPE_FLOAT, dist_type) ;
+	// Use Lloyd algorithm
+	vl_kmeans_set_algorithm (kmeans, VlKMeansLloyd) ;
+
+	if(type == 1) {	// Initialize the cluster centers by Kmeans++
+		vl_kmeans_init_centers_plus_plus (kmeans, data, d, N, k) ;
+	} else if(type == 2) { // Random data
+		vl_kmeans_init_centers_with_rand_data(kmeans, data, d, N, k);
+	}
+	// Run at most 1000 iterations of cluster refinement using Lloyd algorithm
+	vl_kmeans_set_max_num_iterations (kmeans, 1000) ;
+	vl_kmeans_refine_centers (kmeans, data, N) ;
+
+	// Obtain the energy of the solution
+	energy = vl_kmeans_get_energy(kmeans) ;
+	// Obtain the cluster centers
+	SimpleCluster::copy_array((float *)vl_kmeans_get_centers(kmeans),centers,k*d) ;
+
+	labels = (unsigned int *)vl_malloc(N * sizeof(int)) ;
+	distances = (float *)vl_malloc(N * sizeof(float)) ;
+	vl_kmeans_quantize(kmeans, labels, distances, data, N) ;
 }
 }
 

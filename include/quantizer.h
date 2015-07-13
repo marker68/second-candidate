@@ -50,11 +50,15 @@ protected:
 	int N; // the number of points data
 	float * centers; // size: nsc * dim
 	int * labels; // for uses of k-means++
+	unsigned int * ulabels;
 	float ** cq;
 	int k;
 	int * kc, * mc;
+	int type = 1; // 1: VLFeat; 2: Simple-Cluster
+
 public:
 	float * data; // raw vector data; size: N * dim
+	double error = 0.0;
 
 	/**
 	 * Constructors and destructors
@@ -90,7 +94,9 @@ public:
 	 */
 	inline float * get_center_at(int, bool);
 	inline int * get_label_at(int, bool);
+	inline int get_type();
 	inline void set_params(int,int,int);
+	inline void set_type(int);
 
 	/**
 	 * Common output method
@@ -127,6 +133,7 @@ PQQuantizer<DataType>::PQQuantizer (
 	part = _m;
 	nsc = _nsc;
 	labels = nullptr;
+	ulabels = nullptr;
 	cq = nullptr;
 	kc = nullptr;
 	mc = nullptr;
@@ -173,6 +180,8 @@ PQQuantizer<DataType>::~PQQuantizer () {
 	centers = nullptr;
 	::delete labels;
 	labels = nullptr;
+	::delete ulabels;
+	ulabels = nullptr;
 	::delete data;
 	data = nullptr;
 	for(int i = 0; i < k; i++) {
@@ -195,10 +204,18 @@ inline void PQQuantizer<DataType>::load_data(
 		const char * filename,
 		bool verbose) {
 	N = load_and_convert_data<DataType,float>(filename,data,offset,dim,verbose);
-	if(!SimpleCluster::init_array<int>(labels,N*part)) {
-		if(verbose)
-			cerr << "There are some errors occurred while initializing data" << endl;
-		exit(EXIT_FAILURE);
+	if(type == 1) {
+		if(!SimpleCluster::init_array<unsigned int>(ulabels,N*part)) {
+			if(verbose)
+				cerr << "There are some errors occurred while initializing data" << endl;
+			exit(EXIT_FAILURE);
+		}
+	} else {
+		if(!SimpleCluster::init_array<int>(labels,N*part)) {
+			if(verbose)
+				cerr << "There are some errors occurred while initializing data" << endl;
+			exit(EXIT_FAILURE);
+		}
 	}
 	if (verbose)
 		cout << "Initialized " << N << " vectors" << endl;
@@ -232,11 +249,14 @@ inline int PQQuantizer<DataType>::size() {
  * @param verbose enable verbose mode
  */
 template<typename DataType>
-inline void PQQuantizer<DataType>::create_sub_quantizers(bool verbose) {
+inline void PQQuantizer<DataType>::create_sub_quantizers(
+		bool verbose) {
 	int bs = dim / part; //block size
 	float * _centers, * _seeds = nullptr;
 	int * _labels;
-	float * tmp_data;
+	unsigned int * _ulabels;
+	float * tmp_data, *  distances;
+	double energy;
 	int i, j, col_st;
 	KmeansCriteria criteria = {2.0,1.0,1000};
 	int max_threads = 1;
@@ -244,30 +264,53 @@ inline void PQQuantizer<DataType>::create_sub_quantizers(bool verbose) {
 	max_threads = omp_get_max_threads();
 #endif
 	_centers = centers;
-	_labels = labels;
+
+	if(type == 1)
+		_ulabels = ulabels;
+	else
+		_labels = labels;
+
 	int start = 0, end = dim / part;
+	float d = 0.0f, tmp;
+	size_t t;
 	for(i = 0; i < part; i++) {
 		strip_matrix<float>(data,tmp_data,N,dim,start,end,verbose);
 		if(verbose)
 			cout << "Creating codebook " << i  << "/" << part << endl;
-		greg_kmeans<float>(
-				tmp_data,_centers,_labels,_seeds,
-				KmeansType::KMEANS_PLUS_SEEDS,
-				criteria,
-				DistanceType::NORM_L2,
-				EmptyActs::SINGLETON,
-				N,nsc,bs,max_threads,
-				verbose);
+		if(type == 1) {
+			vl_kmeans_exec(
+					tmp_data, _centers, _ulabels, distances,
+					N, nsc, bs, 1, VlDistanceL2, energy, verbose);
+			// Compute the distortion
+			for(t = 0; t < N; t++) {
+				tmp = distances[t];
+				d += tmp;
+			}
+		} else {
+			greg_kmeans<float>(
+					tmp_data,_centers,_labels,_seeds,
+					KmeansType::KMEANS_PLUS_SEEDS,
+					criteria,
+					DistanceType::NORM_L2,
+					EmptyActs::SINGLETON,
+					N,nsc,bs,max_threads,
+					verbose);
+		}
 		start = end;
 		end += dim / part;
 		if(end > dim) end = dim;
 		_centers += nsc * dim / part;
-		_labels += N;
+		if(type == 1)
+			_ulabels += N;
+		else
+			_labels += N;
 		if(verbose)
 			cout << "Finished subcodebook " << i << endl;
 		::delete tmp_data;
 		tmp_data = nullptr;
 	}
+
+	error = sqrt(d);
 	return;
 }
 
@@ -277,6 +320,7 @@ inline void PQQuantizer<DataType>::create_sub_quantizers(bool verbose) {
  */
 template<typename DataType>
 inline double PQQuantizer<DataType>::distortion(bool verbose) {
+	if(type == 1) return DBL_MAX;
 	double e = 0.0, e_tmp;
 	float * tmp_data;
 	int i;
@@ -296,6 +340,7 @@ inline double PQQuantizer<DataType>::distortion(bool verbose) {
 		::delete tmp_data;
 		tmp_data = nullptr;
 	}
+	error = sqrt(e);
 	return sqrt(e);
 }
 
@@ -319,6 +364,8 @@ inline float * PQQuantizer<DataType>::get_center_at(int id, bool verbose) {
  */
 template<typename DataType>
 inline int * PQQuantizer<DataType>::get_label_at(int id, bool verbose) {
+	if(type == 1)
+		return ulabels +  id * N;
 	return labels + id * N;
 }
 
@@ -347,6 +394,8 @@ inline void PQQuantizer<DataType>::set_params(
 	centers = nullptr;
 	::delete labels;
 	labels = nullptr;
+	::delete ulabels;
+	ulabels = nullptr;
 	if(!SimpleCluster::init_array<float>(centers,nsc*dim)) {
 		cerr << "There are some errors occurred while initializing data" << endl;
 		exit(EXIT_FAILURE);
@@ -355,10 +404,28 @@ inline void PQQuantizer<DataType>::set_params(
 		cerr << "Error at parameters of PQQuantizer" << endl;
 		exit(EXIT_FAILURE);
 	}
-	if(!SimpleCluster::init_array<int>(labels,N*part)) {
-		cerr << "There are some errors occurred while initializing data" << endl;
-		exit(EXIT_FAILURE);
+	if(type == 1) {
+		if(!SimpleCluster::init_array<unsigned int>(ulabels,N*part)) {
+			cerr << "There are some errors occurred while initializing data" << endl;
+			exit(EXIT_FAILURE);
+		}
+	} else {
+		if(!SimpleCluster::init_array<int>(labels,N*part)) {
+			cerr << "There are some errors occurred while initializing data" << endl;
+			exit(EXIT_FAILURE);
+		}
 	}
+}
+
+template<typename DataType>
+inline void PQQuantizer<DataType>::set_type(
+		int _type) {
+	type = _type;
+}
+
+template<typename DataType>
+inline int PQQuantizer<DataType>::get_type() {
+	return type;
 }
 
 /**
@@ -487,7 +554,7 @@ inline void PQQuantizer<DataType>::calc_residual_vector(bool verbose) {
 						d = FLT_MAX;
 						v_tmp2 = v_tmp1;
 						for(k1 = 0; k1 < kk; k1++) {
-							d_tmp = SimpleCluster::distance_l2_square(tmp,v_tmp1,bs);
+							d_tmp = SimpleCluster::distance_l2(tmp,v_tmp1,bs);
 							if(d > d_tmp) {
 								d = d_tmp;
 								pos = k1;
