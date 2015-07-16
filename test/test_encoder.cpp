@@ -76,7 +76,7 @@ TEST_F(EncoderTest, test1) {
 }
 
 TEST_F(EncoderTest, test2) {
-	e.encode<float>(base,offset,true);
+	e.encode<unsigned char>(base,offset,true);
 }
 
 TEST_F(EncoderTest, test3) {

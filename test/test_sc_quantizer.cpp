@@ -29,7 +29,7 @@ protected:
 		ifstream input;
 		input.open(config_file, ios::in);
 		input >> learn_data >> cq_out >> mrq_out
-		>> d >> m >> kc >> k >> type;
+		>> d >> m >> kc >> k >> type >> offset;
 		input.close();
 	}
 
@@ -48,7 +48,7 @@ protected:
 public:
 	// Some expensive resource shared by all tests.
 	static SCQuantizer<float> * mrq;
-	static int d, m, kc, k, type;
+	static int d, m, kc, k, type, offset;
 	static char learn_data[256], cq_out[256], mrq_out[256];
 };
 
@@ -58,6 +58,7 @@ int QuantizerTest::m;
 int QuantizerTest::kc;
 int QuantizerTest::k;
 int QuantizerTest::type;
+int QuantizerTest::offset;
 char QuantizerTest::learn_data[256];
 char QuantizerTest::cq_out[256];
 char QuantizerTest::mrq_out[256];
@@ -66,7 +67,7 @@ char QuantizerTest::mrq_out[256];
  * Create product quantizer(m=8)
  */
 TEST_F(QuantizerTest, test1) {
-	mrq = new SCQuantizer<float>(d,m,kc,4,k,true);
+	mrq = new SCQuantizer<float>(d,m,kc,offset,k,true);
 	mrq->load_data(learn_data,true);
 	mrq->set_type(type);
 }

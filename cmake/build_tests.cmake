@@ -81,6 +81,18 @@ target_link_libraries(test_sc_query ${TEST_LIBS_FLAGS})
 add_dependencies(test_sc_query gtest_main simplecluster openblas vlfeat)
 
 add_executable(
+    query_sc
+    ${PROJECT_SOURCE_DIR}/test/query_sc.cpp
+    ${PROJECT_SOURCE_DIR}/src/query.cpp
+    ${PROJECT_SOURCE_DIR}/src/sc_query.cpp
+    ${PROJECT_SOURCE_DIR}/src/sc_utilities.cpp)
+if(MSVC)
+    set_target_properties(query_sc PROPERTIES COMPILE_FLAGS "/MT ${OpenMP_CXX_FLAGS}")
+endif()
+target_link_libraries(query_sc ${TEST_LIBS_FLAGS})
+add_dependencies(query_sc gtest_main simplecluster openblas vlfeat)
+
+add_executable(
 test_evaluation
     ${PROJECT_SOURCE_DIR}/test/test_evaluation.cpp
     ${PROJECT_SOURCE_DIR}/src/evaluation.cpp

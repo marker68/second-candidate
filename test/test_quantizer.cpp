@@ -49,7 +49,7 @@ public:
 	static char filename[256];
 	static char cq_path[256], pq_path[256];
 	static int d, c, m, k, offset, type;
-	static PQQuantizer<float> * cq;
+	static PQQuantizer<unsigned char> * cq;
 };
 
 char QuantizerTest::filename[256];
@@ -61,13 +61,13 @@ int QuantizerTest::m;
 int QuantizerTest::k;
 int QuantizerTest::type;
 int QuantizerTest::offset;
-PQQuantizer<float> * QuantizerTest::cq;
+PQQuantizer<unsigned char> * QuantizerTest::cq;
 
 /**
  * Create coarse quantizer(m=1)
  */
 TEST_F(QuantizerTest, test1) {
-	cq = new PQQuantizer<float>(d,c,k,offset,true);
+	cq = new PQQuantizer<unsigned char>(d,c,k,offset,true);
 	cq->set_type(type);
 	cq->load_data(filename,true);
 }

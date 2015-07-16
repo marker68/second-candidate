@@ -1,7 +1,7 @@
 /*
- * test_sc_query.cpp
+ * query_sc.cpp
  *
- *  Created on: 2014/12/15
+ *  Created on: 2015/07/16
  *      Author: Nguyen Anh Tuan <t_nguyen@hal.t.u-tokyo.ac.jp>
  */
 
@@ -22,6 +22,7 @@ using namespace std;
 using namespace SC;
 
 char config_file[256];
+int qid;
 
 /**
  * Customized test case for testing
@@ -107,42 +108,11 @@ TEST_F(QueryTest, test2) {
 
 TEST_F(QueryTest, test3) {
 	N = load_data<float>(query_path,data,offset,d,true);
-//	worker->load_data<unsigned char>("./data/sift/sift_base.bvecs",4,true);
 	worker->pre_compute1();
 }
 
 TEST_F(QueryTest, test4) {
-	clock_t st, ed;
-	time_t timer = time(NULL);
-	char data_folder[256];
-	sprintf(data_folder,"%s/search",base_dir);
 	struct stat sb;
-if(stat(data_folder, &sb) != 0) {
-#ifdef _WIN32
-if(CreateDirectory(data_folder, nullptr) == 0) {
-#else
-	if(mkdir(data_folder,00777) == -1) {
-#endif
-		cerr << "Failed to create data folder search" << endl;
-#ifdef _WIN32
-		cerr << "Error code: " << GetLastError() << endl;
-#endif
-		exit(1);
-	}
-}
-sprintf(data_folder,"%s/search/%d",base_dir,static_cast<int>(timer));
-#ifdef _WIN32
-if(CreateDirectory(data_folder, nullptr) == 0) {
-#else
-	if(mkdir(data_folder,00777) == -1) {
-#endif
-		cerr << "Failed to create data folder" << endl;
-#ifdef _WIN32
-		cerr << "Error code: " << GetLastError() << endl;
-#endif
-		exit(1);
-	}
-	double t = 0.0;
 	int R, r[] = {1,10,100,1000,10000,100000};
 	ofstream output;
 	char filename[256];
@@ -165,13 +135,10 @@ if(CreateDirectory(data_folder, nullptr) == 0) {
 
 	int sum = 0;
 	for(int i = 0; i < 3; i++) {
-		t = 0.0;
 		R = r[i];
-		tmp = data;
-		sprintf(filename,"%s/search/%d/search_result_%d.txt",base_dir,static_cast<int>(timer),R);
+		tmp = data + qid * d;
+		sprintf(filename,"%s/sc_%d.txt",base_dir,R);
 		output.open(filename,ios::out);
-		for(int j = 0; j < N; j++) {
-			st = clock();
 			worker->search_mr_ivf(
 					tmp,
 					v_tmp,dist,
@@ -180,114 +147,23 @@ if(CreateDirectory(data_folder, nullptr) == 0) {
 					s1,s2,
 					prebuck,cache,traversed,
 					sum,R,w,T,M,false,false);
-			ed = clock();
-			t += static_cast<double>(ed - st);
 			EXPECT_TRUE(traversed[0]);
 			EXPECT_TRUE(!traversed[1]);
 			for(int i = 0; i < (R>sum?sum:R); i++) {
-				output << result[i] << " ";
+				output << result[i] << endl;
+                cout << result[i] << endl;
 			}
 			if(sum < R)
 				for(int i = 0; i < R - sum; i++) {
-					output << "-1 ";
+					output << "-1 " << endl;
 				}
-			output << endl;
-			tmp += d;
 			::delete result;
 			result = nullptr;
 			::delete dist;
 			dist =  nullptr;
-		}
 
 		output.close();
-		cout << "Finished search@" << R << " in " <<
-				1000.0f * t / CLOCKS_PER_SEC << "[ms]" << endl;
 	}
-}
-
-TEST_F(QueryTest, DISABLED_test5) {
-	clock_t st, ed;
-	time_t timer = time(NULL);
-	char data_folder[256];
-	sprintf(data_folder,"%s/search",base_dir);
-	struct stat sb;
-if(stat(data_folder, &sb) != 0) {
-#ifdef _WIN32
-if(CreateDirectory(data_folder, nullptr) == 0) {
-#else
-	if(mkdir(data_folder,00777) == -1) {
-#endif
-		cerr << "Failed to create data folder search" << endl;
-#ifdef _WIN32
-		cerr << "Error code: " << GetLastError() << endl;
-#endif
-		exit(1);
-	}
-}
-sprintf(data_folder,"%s/search/%d",base_dir,static_cast<int>(timer));
-#ifdef _WIN32
-if(CreateDirectory(data_folder, nullptr) == 0) {
-#else
-	if(mkdir(data_folder,00777) == -1) {
-#endif
-		cerr << "Failed to create data folder" << endl;
-#ifdef _WIN32
-		cerr << "Error code: " << GetLastError() << endl;
-#endif
-		exit(1);
-	}
-	double t = 0.0;
-	int M = kc >> 4;
-	ofstream output;
-	char filename[256];
-	int * result, * it, * hid1, * hid2, * hid3, * hid4, * s1, * s2, * prebuck, * cache;
-	float * v_tmp, * dist, * tmp;
-	bool * traversed;
-	SimpleCluster::init_array(v_tmp,kc + w);
-	SimpleCluster::init_array(it,kc);
-	SimpleCluster::init_array(hid1,w);
-	SimpleCluster::init_array(hid2,w);
-	SimpleCluster::init_array(hid3,w);
-	SimpleCluster::init_array(hid4,w);
-	SimpleCluster::init_array(s1,w);
-	SimpleCluster::init_array(s2,w);
-	SimpleCluster::init_array(prebuck,w);
-	SimpleCluster::init_array(cache,w);
-	SimpleCluster::init_array(traversed,kc * kc);
-	memset(traversed,0,kc * kc);
-	traversed[0] = true;
-
-	int sum = 0;
-	t = 0.0;
-	tmp = data;
-	sprintf(filename,"%s/search/%d/search_result_%d.txt",base_dir,static_cast<int>(timer),1);
-	output.open(filename,ios::out);
-	for(int j = 0; j < N; j++) {
-		st = clock();
-		worker->search_mr_ivf(
-				tmp,
-				v_tmp,dist,
-				it,result,
-				hid1,hid2,hid3,hid4,
-				s1,s2,
-				prebuck,cache,traversed,
-				sum,1,w,T,M,true,false);
-		ed = clock();
-		t += static_cast<double>(ed - st);
-		for(int i = 0; i < 1; i++) {
-			output << result[i] << " ";
-		}
-		output << endl;
-		tmp += d;
-		::delete result;
-		result = nullptr;
-		::delete dist;
-		dist =  nullptr;
-	}
-
-	output.close();
-	cout << "Finished search@1 in " <<
-			1000.0f * t / CLOCKS_PER_SEC << "[ms]" << endl;
 }
 
 int main(int argc, char * argv[]) {
@@ -296,13 +172,13 @@ int main(int argc, char * argv[]) {
 	 **/
 	::testing::InitGoogleTest(&argc, argv);
 
-	if(argc != 2) {
-		cout << "Usage: " << argv[0] << " config_file" << endl;
+	if(argc != 3) {
+		cout << "Usage: " << argv[0] << " config_file qid" << endl;
 		exit(EXIT_FAILURE);
 	}
 
 	snprintf(config_file, 256, "%s",argv[1]);
-
+    qid = atoi(argv[2]);
 	/**
 	 * RUN_ALL_TESTS automatically detects and runs all the tests defined using the TEST macro.
 	 * It's must be called only once in the code because multiple calls lead to conflicts and,
