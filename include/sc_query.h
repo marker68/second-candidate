@@ -249,6 +249,7 @@ inline void SCQuery::search_mr_ivf(float * query,
 	// Step 4: Extract the top R
 	if(sum >= R) {
 		nth_element_id(dist,dist+sum,result,R-1);
+		sort_id(dist,dist+R,result);
 	}
 	if(verbose) {
 		cout << "Finished STEP 4" << endl;
