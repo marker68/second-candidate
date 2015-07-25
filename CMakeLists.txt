@@ -92,8 +92,8 @@ if(MSVC)
 endif()
 target_link_libraries(${PROJECT_NAME} ${LIBS_FLAGS})
 target_link_libraries(${PROJECT_NAME}_static ${LIBS_FLAGS})
-add_dependencies(${PROJECT_NAME} vlfeat openblas)
-add_dependencies(${PROJECT_NAME}_static vlfeat openblas)
+add_dependencies(${PROJECT_NAME} vlfeat openblas simplecluster)
+add_dependencies(${PROJECT_NAME}_static vlfeat openblas simplecluster)
 
 if(NOT MSVC)
 	set(TEST_LIBS_FLAGS 
