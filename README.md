@@ -44,8 +44,6 @@ If you use this source code, please also cite the following reference:
 
 We use CMake as the build system. On terminal,
 ```bash
-$ git clone git@github.com:your/repo.git pq-learn
-$ cd ./pq-learn
 $ git submodule update --init
 $ cmake -H. -Bbuild && cmake --build build -- -j4
 # OR IF YOU WANT TO BUILD TESTS
