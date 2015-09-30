@@ -3,14 +3,34 @@ SecondCandidate
 
 ## Introduction
 
-This project is the source code of the paper "**Searching for nearest neighbors with a dense space partitioning**".
-In this project, we achieved to create a library for nearest neighbors search with the following features:
+**[Our slide at ICIP 2015](http://tech-codes.com/wp-content/uploads/2015/09/icip-slide-v2.pdf)**
 
-* An implementation of **Product Quantization for Approximated Nearest Neighbor Search [1]** 
-* An implementation of **the inverted multi-index [2]**
-* An implementation of the method that is described in **Searching for nearest neighbors with a dense space partitioning [3]**
+This project is the source code of the paper "**Searching for nearest neighbors with a dense space partitioning**".
+In this project, we try to create a library for nearest neighbors search with the following features:
+
+* An implementation of **Product Quantization for Approximated Nearest Neighbor Search** 
+* An implementation of **the inverted multi-index**
+* An implementation of the method that is described in **Searching for nearest neighbors with a dense space partitioning**
+
+If you use this source code, please also cite the following reference:
+
+```
+@inproceedings{Nguyen15, 
+	author={Nguyen, T. and Matsui, Y. and Yamasaki, T. and Aizawa, K.}, 
+	booktitle={Proc. ICIP}, 
+	title={Searching for nearest neighbors with a dense space partitioning}, 
+	year={2015}, 
+	pages={1--1}, 
+	organization = {IEEE},
+}
+```
 
 ## References
+[1] H. Jegou, M. Douze and C. Schmid, "Product quantiza-tion for nearest neighbor search," IEEE Trans. Pattern Anal. Mach. Intell., vol. 33, no. 1, pp. 117–128, 2011.
+
+[2] A. Babenko and V. Lempitsky, "The inverted multi-index," IEEE Trans. Pattern Anal. Mach. Intell., vol. 37, no. 99, pp. 1247–1260, 2014.
+
+[3] T. A. Nguyen, Y. Matsui, T. Yamasaki and K. Aizawa, "Searching for nearest neighbors with a dense space partitioning," in Proc. ICIP, IEEE, 2015.
 
 ## Installation
 
