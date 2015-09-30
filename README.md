@@ -26,11 +26,13 @@ If you use this source code, please also cite the following reference:
 ```
 
 ## References
-[1] H. Jegou, M. Douze and C. Schmid, "Product quantiza-tion for nearest neighbor search," IEEE Trans. Pattern Anal. Mach. Intell., vol. 33, no. 1, pp. 117–128, 2011.
+```
+[1] H. Jegou, M. Douze and C. Schmid, "Product quantization for nearest neighbor search," IEEE Trans. Pattern Anal. Mach. Intell., vol. 33, no. 1, pp. 117–128, 2011.
 
 [2] A. Babenko and V. Lempitsky, "The inverted multi-index," IEEE Trans. Pattern Anal. Mach. Intell., vol. 37, no. 99, pp. 1247–1260, 2014.
 
 [3] T. A. Nguyen, Y. Matsui, T. Yamasaki and K. Aizawa, "Searching for nearest neighbors with a dense space partitioning," in Proc. ICIP, IEEE, 2015.
+```
 
 ## Installation
 
