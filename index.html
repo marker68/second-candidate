@@ -5,7 +5,7 @@
     <title>Second-candidate by marker68</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
-    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
     <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
   </head>
@@ -22,24 +22,43 @@
       <h1>
 <a id="secondcandidate" class="anchor" href="#secondcandidate" aria-hidden="true"><span class="octicon octicon-link"></span></a>SecondCandidate</h1>
 
-<p><a href="https://travis-ci.org/marker68/second-candidate"><img src="https://travis-ci.org/marker68/second-candidate.svg" alt="Build Status"></a></p>
-
 <h2>
 <a id="introduction" class="anchor" href="#introduction" aria-hidden="true"><span class="octicon octicon-link"></span></a>Introduction</h2>
 
+<p><strong><a href="http://tech-codes.com/wp-content/uploads/2015/09/icip-slide-v2.pdf">Our slide at ICIP 2015</a></strong></p>
+
 <p>This project is the source code of the paper "<strong>Searching for nearest neighbors with a dense space partitioning</strong>".
-In this project, we achieved to create a library for nearest neighbors search with the following features:</p>
+In this project, we try to create a library for nearest neighbors search with the following features:</p>
 
 <ul>
 <li>An implementation of <strong>Product Quantization for Approximated Nearest Neighbor Search</strong> </li>
 <li>An implementation of <strong>the inverted multi-index</strong>
 </li>
-<li>The method that is described in <strong>Searching for nearest neighbors with a dense space partitioning</strong>
+<li>An implementation of the method that is described in <strong>Searching for nearest neighbors with a dense space partitioning</strong>
 </li>
 </ul>
 
+<p>If you use this source code, please also cite the following reference:</p>
+
+<pre><code>@inproceedings{Nguyen15, 
+    author={Nguyen, T. and Matsui, Y. and Yamasaki, T. and Aizawa, K.}, 
+    booktitle={Proc. ICIP}, 
+    title={Searching for nearest neighbors with a dense space partitioning}, 
+    year={2015}, 
+    pages={1--1}, 
+    organization = {IEEE},
+}
+</code></pre>
+
 <h2>
 <a id="references" class="anchor" href="#references" aria-hidden="true"><span class="octicon octicon-link"></span></a>References</h2>
+
+<pre><code>[1] H. Jegou, M. Douze and C. Schmid, "Product quantization for nearest neighbor search," IEEE Trans. Pattern Anal. Mach. Intell., vol. 33, no. 1, pp. 117–128, 2011.
+
+[2] A. Babenko and V. Lempitsky, "The inverted multi-index," IEEE Trans. Pattern Anal. Mach. Intell., vol. 37, no. 99, pp. 1247–1260, 2014.
+
+[3] T. A. Nguyen, Y. Matsui, T. Yamasaki and K. Aizawa, "Searching for nearest neighbors with a dense space partitioning," in Proc. ICIP, IEEE, 2015.
+</code></pre>
 
 <h2>
 <a id="installation" class="anchor" href="#installation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Installation</h2>
@@ -59,9 +78,7 @@ In this project, we achieved to create a library for nearest neighbors search wi
 
 <p>We use CMake as the build system. On terminal,</p>
 
-<div class="highlight highlight-bash"><pre>$ git clone git@github.com:your/repo.git pq-learn
-$ <span class="pl-c1">cd</span> ./pq-learn
-$ git submodule update --init
+<div class="highlight highlight-source-shell"><pre>$ git submodule update --init
 $ cmake -H. -Bbuild <span class="pl-k">&amp;&amp;</span> cmake --build build -- -j4
 <span class="pl-c"># OR IF YOU WANT TO BUILD TESTS</span>
 $ cmake -DBUILD_TEST=ON -H. -Bbuild <span class="pl-k">&amp;&amp;</span> cmake --build build -- -j4</pre></div>
@@ -74,7 +91,7 @@ $ cmake -DBUILD_TEST=ON -H. -Bbuild <span class="pl-k">&amp;&amp;</span> cmake -
 <p>We are using Doxygen to generate the documentation. You can find that the style of comments for every methods that are implemented in these source codes are matching with Doxygen style.
 To generate the documentation:</p>
 
-<div class="highlight highlight-bash"><pre>$ <span class="pl-c1">cd</span> ./doc
+<div class="highlight highlight-source-shell"><pre>$ <span class="pl-c1">cd</span> ./doc
 $ doxygen config.doxygen</pre></div>
 
 <p>Doxygen will create the documentation files in HTML and LaTeX format. You can also find samples and documentation in the Wiki of this project.</p>
@@ -97,4 +114,3 @@ $ doxygen config.doxygen</pre></div>
   
   </body>
 </html>
-
