@@ -68,4 +68,25 @@ Doxygen will create the documentation files in HTML and LaTeX format. You can al
 ## To developers
 
 * This project was built under Eclipse CDT so we leave the configuration files `.cproject` and `.project` of the project here. If you are using Eclipse, just import the folder that contains the source code.
+* This project follows GPLv3 license.
+
+## LICENSE STATEMENT
+
+```
+    SecondCandidate - A library for Nearest Neighbor Search
+    Copyright (C) <2015>  <Tuan Anh Nguyen>
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+```
 
