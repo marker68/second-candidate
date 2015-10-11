@@ -74,7 +74,7 @@ Doxygen will create the documentation files in HTML and LaTeX format. You can al
 
 ```
     SecondCandidate - A library for Nearest Neighbor Search
-    Copyright (C) <2015>  <Tuan Anh Nguyen>
+    Copyright (C) 2015  Tuan Anh Nguyen <tuan.nguyenanh@hotmail.com>
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
