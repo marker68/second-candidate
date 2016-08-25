@@ -3,7 +3,7 @@ SecondCandidate
 
 ## Introduction
 
-**[Our slide at ICIP 2015](http://tech-codes.com/wp-content/uploads/2015/09/icip-slide-v2.pdf)**
+**[Public pre-print of our paper at ICIP 2015](https://www.researchgate.net/publication/304541095_Searching_for_nearest_neighbors_with_a_dense_space_partitioning)**
 
 This project is the source code of the paper "**Searching for nearest neighbors with a dense space partitioning**".
 In this project, we try to create a library for nearest neighbors search with the following features:
