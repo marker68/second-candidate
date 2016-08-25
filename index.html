@@ -1,31 +1,40 @@
-<!DOCTYPE html>
-<html lang="en-us">
+<!doctype html>
+<html>
   <head>
-    <meta charset="UTF-8">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
     <title>Second-candidate by marker68</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
-    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
-    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/github-light.css">
+    <meta name="viewport" content="width=device-width">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
   </head>
   <body>
-    <section class="page-header">
-      <h1 class="project-name">Second-candidate</h1>
-      <h2 class="project-tagline">An implementation of the paper “Searching for nearest neighbors with a dense space partitioning,” in Proceedings of International Conference on Image Processing, pp. 1–1, IEEE, 2015.</h2>
-      <a href="https://github.com/marker68/second-candidate" class="btn">View on GitHub</a>
-      <a href="https://github.com/marker68/second-candidate/zipball/master" class="btn">Download .zip</a>
-      <a href="https://github.com/marker68/second-candidate/tarball/master" class="btn">Download .tar.gz</a>
-    </section>
+    <div class="wrapper">
+      <header>
+        <h1>Second-candidate</h1>
+        <p>An implementation of the paper “Searching for nearest neighbors with a dense space partitioning,” in Proceedings of International Conference on Image Processing, pp. 1–1, IEEE, 2015.</p>
 
-    <section class="main-content">
-      <h1>
-<a id="secondcandidate" class="anchor" href="#secondcandidate" aria-hidden="true"><span class="octicon octicon-link"></span></a>SecondCandidate</h1>
+        <p class="view"><a href="https://github.com/marker68/second-candidate">View the Project on GitHub <small>marker68/second-candidate</small></a></p>
+
+
+        <ul>
+          <li><a href="https://github.com/marker68/second-candidate/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/marker68/second-candidate/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/marker68/second-candidate">View On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
+        <h1>
+<a id="secondcandidate" class="anchor" href="#secondcandidate" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>SecondCandidate</h1>
 
 <h2>
-<a id="introduction" class="anchor" href="#introduction" aria-hidden="true"><span class="octicon octicon-link"></span></a>Introduction</h2>
+<a id="introduction" class="anchor" href="#introduction" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Introduction</h2>
 
-<p><strong><a href="http://tech-codes.com/wp-content/uploads/2015/09/icip-slide-v2.pdf">Our slide at ICIP 2015</a></strong></p>
+<p><strong><a href="https://www.researchgate.net/publication/304541095_Searching_for_nearest_neighbors_with_a_dense_space_partitioning">Public pre-print of our paper at ICIP 2015</a></strong></p>
 
 <p>This project is the source code of the paper "<strong>Searching for nearest neighbors with a dense space partitioning</strong>".
 In this project, we try to create a library for nearest neighbors search with the following features:</p>
@@ -51,7 +60,7 @@ In this project, we try to create a library for nearest neighbors search with th
 </code></pre>
 
 <h2>
-<a id="references" class="anchor" href="#references" aria-hidden="true"><span class="octicon octicon-link"></span></a>References</h2>
+<a id="references" class="anchor" href="#references" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>References</h2>
 
 <pre><code>[1] H. Jegou, M. Douze and C. Schmid, "Product quantization for nearest neighbor search," IEEE Trans. Pattern Anal. Mach. Intell., vol. 33, no. 1, pp. 117–128, 2011.
 
@@ -61,10 +70,10 @@ In this project, we try to create a library for nearest neighbors search with th
 </code></pre>
 
 <h2>
-<a id="installation" class="anchor" href="#installation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Installation</h2>
+<a id="installation" class="anchor" href="#installation" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Installation</h2>
 
 <h4>
-<a id="prerequisites" class="anchor" href="#prerequisites" aria-hidden="true"><span class="octicon octicon-link"></span></a>Prerequisites</h4>
+<a id="prerequisites" class="anchor" href="#prerequisites" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Prerequisites</h4>
 
 <ul>
 <li>An Unix Operating System. Tested on Mac OS X 10.9 and Ubuntu 14.04.</li>
@@ -74,7 +83,7 @@ In this project, we try to create a library for nearest neighbors search with th
 </ul>
 
 <h4>
-<a id="build" class="anchor" href="#build" aria-hidden="true"><span class="octicon octicon-link"></span></a>Build</h4>
+<a id="build" class="anchor" href="#build" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Build</h4>
 
 <p>We use CMake as the build system. On terminal,</p>
 
@@ -86,7 +95,7 @@ $ cmake -DBUILD_TEST=ON -H. -Bbuild <span class="pl-k">&amp;&amp;</span> cmake -
 <p>This script will create binaries in your <code>bin/</code> and <code>lib/</code> directories. </p>
 
 <h2>
-<a id="documentation" class="anchor" href="#documentation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Documentation</h2>
+<a id="documentation" class="anchor" href="#documentation" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Documentation</h2>
 
 <p>We are using Doxygen to generate the documentation. You can find that the style of comments for every methods that are implemented in these source codes are matching with Doxygen style.
 To generate the documentation:</p>
@@ -97,20 +106,18 @@ $ doxygen config.doxygen</pre></div>
 <p>Doxygen will create the documentation files in HTML and LaTeX format. You can also find samples and documentation in the Wiki of this project.</p>
 
 <h2>
-<a id="to-developers" class="anchor" href="#to-developers" aria-hidden="true"><span class="octicon octicon-link"></span></a>To developers</h2>
+<a id="to-developers" class="anchor" href="#to-developers" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>To developers</h2>
 
 <ul>
 <li>This project was built under Eclipse CDT so we leave the configuration files <code>.cproject</code> and <code>.project</code> of the project here. If you are using Eclipse, just import the folder that contains the source code.</li>
 </ul>
-
-      <footer class="site-footer">
-        <span class="site-footer-owner"><a href="https://github.com/marker68/second-candidate">Second-candidate</a> is maintained by <a href="https://github.com/marker68">marker68</a>.</span>
-
-        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</span>
+      </section>
+      <footer>
+        <p>This project is maintained by <a href="https://github.com/marker68">marker68</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
       </footer>
-
-    </section>
-
-  
+    </div>
+    <script src="javascripts/scale.fix.js"></script>
+    
   </body>
 </html>
